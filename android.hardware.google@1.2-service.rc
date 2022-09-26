@@ -1,3 +1,4 @@
+# NOTE : For ACE to not to use ARA/ARF we need to set following system property (Only in debug mode)
 on property:ro.build.type=userdebug
     setprop service.seek fullaccess
 
