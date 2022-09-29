@@ -4,5 +4,4 @@ on property:ro.build.type=userdebug
 
 service vendor.secure_element_hal_service /vendor/bin/hw/android.hardware.secure_element@1.2-service.google
     class hal
-    user system
-    group system
+    user jc_strongbox
