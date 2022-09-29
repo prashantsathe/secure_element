@@ -2,7 +2,7 @@
 
 ## Introduction
 SE HAL is a dummy service which interacts with JCserver(Socket based java application) to forward APDU from Omapi service to SE applets. This document is based on testing VTS test cases which interact with vendor Hal service (strongBox/FiRa) to SE applet (keymaster/FiRa) through Omapi and SE HAL services.
-
+![](https://github.com/prashantsathe/SecureChannelStructure/blob/main/SE_HAL_Integration_guide.jpg)
 
 ## Integration Steps (Keymaster Applet testing)
 * First follow building an AOSP and strongbox/ Omapi integration steps mentioned in the [xTS Setup Guide for Keymint100](https://docs.google.com/document/d/1J3nRC_r3cHD2ui5LBJYHb0UKwX7HwhvNmn5IUDf_Qyg/edit?resourcekey=0-l9uDhkzj9ynDS1ikq5rCzQ#heading=h.7n15gd1i4abd)
