@@ -5,7 +5,7 @@ SE HAL is a dummy service which interacts with JCserver(Socket based java applic
 
 
 ## Integration Steps (Keymaster Applet testing)
-* First follow building an AOSP and strongbox/ Omapi integration steps mentioned in the [External] xTS Setup Guide for Keymint100
+* First follow building an AOSP and strongbox/ Omapi integration steps mentioned in the [xTS Setup Guide for Keymint100](https://docs.google.com/document/d/1J3nRC_r3cHD2ui5LBJYHb0UKwX7HwhvNmn5IUDf_Qyg/edit?resourcekey=0-l9uDhkzj9ynDS1ikq5rCzQ#heading=h.7n15gd1i4abd)
 * Checkout SE hal source code present at  SE HAL in hardware/google location
 Add following code in device/google/cuttlefish/shared/config/device.mk
 ```
@@ -65,10 +65,10 @@ NOTE in self:global_capability_class_set { net_admin net_raw }; and }:tcp_socket
   - SecureElement.apk
 
 * Build and Run the JCserver code present at JCserver (JcardSim) and provisioned the Keymaster applet using Provisioning Tool
-Launch the emulator by “$ launch_cvd --start_webrtc=true” command
+Launch the emulator by **$ launch_cvd --start_webrtc=true** command
 
 
 
 ## Execute VTS test
 
-Follow section How to Execute VTS of StrongBox xTS Setup Guide
+Follow section How to Execute VTS of [xTS Setup Guide for Keymint100](https://docs.google.com/document/d/1J3nRC_r3cHD2ui5LBJYHb0UKwX7HwhvNmn5IUDf_Qyg/edit?resourcekey=0-l9uDhkzj9ynDS1ikq5rCzQ#heading=h.7n15gd1i4abd)
