@@ -28,10 +28,6 @@ PRODUCT_PACKAGES += \
 ```
 /vendor/bin/hw/android\.hardware\.secure_element@1\.2-service\.google  u:object_r:hal_secure_element_default_exec:s0
 ```
-* In device/google/cuttlefish/shared/BoardConfig.mk
-```
-BOARD_KERNEL_CMDLINE += androidboot.selinux=permissive
-```
 
 * Add new file at device/google/cuttlefish/shared/sepolicy/vendor/hal_secure_element_google.te with following context
 ```
