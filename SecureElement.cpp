@@ -63,16 +63,13 @@ Return<void> SecureElement::openLogicalChannel(const hidl_vec<uint8_t>& aid, uin
     memset(&cbLogicalResponse, 0x00, sizeof(cbLogicalResponse));
 
     LOG(INFO) << "Start openLogicalChannel";
-    if (mSocketTransport->isConnected()) {
-        LOG(ERROR) << "Socket is already connected";
-        _hidl_cb(cbLogicalResponse, SecureElementStatus::SUCCESS);
-        return Void();
-    }
 
-    if (!mSocketTransport->openConnection()) {
-        LOG(ERROR) << "error while open Correction";
-        _hidl_cb(cbLogicalResponse, SecureElementStatus::IOERROR);
-        return Void();
+    if (!mSocketTransport->isConnected()) {
+        if (!mSocketTransport->openConnection()) {
+            LOG(ERROR) << "error while open Correction";
+            _hidl_cb(cbLogicalResponse, SecureElementStatus::IOERROR);
+            return Void();
+        }
     }
 
     LOG(INFO) << "Socket is Connected, sending manage channel command";
@@ -92,11 +89,10 @@ Return<void> SecureElement::openLogicalChannel(const hidl_vec<uint8_t>& aid, uin
         /* update CLA byte accoridng to GP spec Table 11-11*/
         selectCmd.push_back((uint8_t)resApduBuff[0]); /* Class of instruction */
     } else {
-        // LOG(ERROR) << "Invalid Channel " << resApduBuff[0];
-        // resApduBuff[0] = 0xff;
-        // _hidl_cb(cbLogicalResponse, SecureElementStatus::IOERROR);
-        // return Void();
-        selectCmd.push_back(0x01);
+        LOG(ERROR) << "Invalid Channel " << resApduBuff[0];
+        resApduBuff[0] = 0xff;
+        _hidl_cb(cbLogicalResponse, SecureElementStatus::IOERROR);
+        return Void();
     }
 
     LOG(INFO) << "manage channel command is done, sending Select command";
