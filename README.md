@@ -60,7 +60,7 @@ NOTE in self:global_capability_class_set { net_admin net_raw }; and }:tcp_socket
   - Android.hardware.security.keymint-service.strongbox
   - SecureElement.apk
 
-* Build and Run the JCserver code present at JCserver (JcardSim) and provisioned the Keymaster applet using Provisioning Tool
+* Build and Run the JCserver code present at [JCserver](https://github.com/prashantsathe/JCServer/tree/jcop_support_goldfish) and provisioned the Keymaster applet using Provisioning Tool
 Launch the emulator by **$ launch_cvd --start_webrtc=true** command
 
 
