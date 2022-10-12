@@ -83,20 +83,22 @@ Return<void> SecureElement::openLogicalChannel(const hidl_vec<uint8_t>& aid, uin
 
     std::vector<uint8_t> selectCmd;
     if ((resApduBuff[0] > 0x03) && (resApduBuff[0] < 0x14)) {
-        /* update CLA byte accoridng to GP spec Table 11-12*/
+        /* update CLA byte according to GP spec Table 11-12*/
         selectCmd.push_back(0x40 + (resApduBuff[0] - 4)); /* Class of instruction */
     } else if ((resApduBuff[0] > 0x00) && (resApduBuff[0] < 0x04)) {
-        /* update CLA byte accoridng to GP spec Table 11-11*/
-        selectCmd.push_back((uint8_t)resApduBuff[0]); /* Class of instruction */
+        /* update CLA byte according to GP spec Table 11-11*/
+        selectCmd.push_back((uint8_t) resApduBuff[0]); /* Class of instruction */
     } else {
         LOG(ERROR) << "Invalid Channel " << resApduBuff[0];
         resApduBuff[0] = 0xff;
         _hidl_cb(cbLogicalResponse, SecureElementStatus::IOERROR);
         return Void();
     }
+    cbLogicalResponse.channelNumber = resApduBuff[0];
+    LOG(INFO) << "manage channel command is done";
 
-    LOG(INFO) << "manage channel command is done, sending Select command";
     // send select command
+    LOG(INFO) << "sending Select command";
     selectCmd.push_back((uint8_t) 0xA4); /* Instruction code */
     selectCmd.push_back((uint8_t) 0x04);  /* Instruction parameter 1 */
     selectCmd.push_back(p2);    /* Instruction parameter 2 */
@@ -119,7 +121,6 @@ Return<void> SecureElement::openLogicalChannel(const hidl_vec<uint8_t>& aid, uin
         }
     } else {
         LOG(INFO) << "Select command Success";
-        cbLogicalResponse.channelNumber = 0x01; // TODO
         sestatus = SecureElementStatus::SUCCESS;
     }
 
@@ -140,10 +141,24 @@ Return<void> SecureElement::openBasicChannel(const hidl_vec<uint8_t>& aid, uint8
 Return<SecureElementStatus> SecureElement::internalCloseChannel(uint8_t channelNumber) {
     UNUSED(channelNumber);
     LOG(INFO) << "internalCloseChannel";
+    uint8_t manageChannelCommand[] = {0x00, 0x70, 0x80, 0x00, 0x00};
+    std::vector<uint8_t> resApduBuff;
 
-    if (mSocketTransport->isConnected()) {
-        mSocketTransport->closeConnection();
+    // change class of instruction & p2 parameter
+    manageChannelCommand[0] = channelNumber;
+    // For Supplementary Channel update CLA byte according to GP
+    if ((channelNumber > 0x03) && (channelNumber < 0x14)) {
+        /* update CLA byte according to GP spec Table 11-12*/
+        manageChannelCommand[0] = 0x40 + (channelNumber - 4);
     }
+    manageChannelCommand[3] = channelNumber;  /* Instruction parameter 2 */
+
+    mSocketTransport->sendData(manageChannelCommand, 5, resApduBuff);
+    if (!(resApduBuff[0] == 0x90 && resApduBuff[1] == 0x00)) {
+        LOG(ERROR) << "internalCloseChannel failed";
+        return SecureElementStatus::FAILED;
+    }
+
     return SecureElementStatus::SUCCESS;
 }
 
@@ -156,6 +171,9 @@ Return<SecureElementStatus> SecureElement::closeChannel(uint8_t channelNumber) {
 
 void SecureElement::serviceDied(uint64_t /*cookie*/, const wp<IBase>& /*who*/) {
     LOG(INFO) << " SecureElement serviceDied!!!";
+    if (mSocketTransport->isConnected()) {
+        mSocketTransport->closeConnection();
+    }
 }
 
 void SecureElement::seHalInit() {
