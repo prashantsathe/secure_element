@@ -52,7 +52,7 @@ allow hal_secure_element_google vendor_data_file:file { open read getattr };
 * In system/sepolicy/public/hal_neverallows.te
 NOTE in self:global_capability_class_set { net_admin net_raw }; and }:tcp_socket *;
 ```
--hal_keymint_server
+- hal_secure_element_server
 ```
 
 * Build the AOSP and verify that all mentioned Binaries are present 
