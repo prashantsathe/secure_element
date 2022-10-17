@@ -48,7 +48,7 @@ allow hal_secure_element_google port_type:tcp_socket name_connect;
 allow hal_secure_element_google port:tcp_socket { name_connect };
 allow hal_secure_element_google vendor_data_file:file { open read getattr };
 ```
-* Update the IP Address in [SocketTransport.cpp]
+* Update the IP Address in [a relative link]
 (SocketTransport.cpp) to your Linux machine's IP Address
 ```
 #define IPADDR  "" /* Mention your machine's IP Address */
