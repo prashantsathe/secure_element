@@ -1,13 +1,14 @@
 # Secure Element HAL Integration
 
 ## Introduction
-SE HAL is a dummy service which interacts with JCserver(Socket based java application) to forward APDU from Omapi service to SE applets. This document is based on testing VTS test cases which interact with vendor Hal service (strongBox/FiRa) to SE applet (keymaster/FiRa) through Omapi and SE HAL services.
+SE HAL is a dummy service which interacts with JCserver(Socket based java application) to forward APDU from Omapi service to SE applets. This document is based on testing VTS test cases which interact with vendor Hal service (strongBox) to SE applet (keymaster) through Omapi and SE HAL services.
+
 ![](https://github.com/prashantsathe/SecureChannelStructure/blob/main/SE_HAL_Integration_guide.jpg)
 
 ## Integration Steps (Keymaster Applet testing)
-* First follow building an AOSP and strongbox/ Omapi integration steps mentioned in the [xTS Setup Guide for Keymint100](https://docs.google.com/document/d/1J3nRC_r3cHD2ui5LBJYHb0UKwX7HwhvNmn5IUDf_Qyg/edit?resourcekey=0-l9uDhkzj9ynDS1ikq5rCzQ#heading=h.7n15gd1i4abd)
+* First follow building an AOSP and strongbox/Omapi integration steps mentioned in the [xTS Setup Guide for Keymint100](https://docs.google.com/document/d/1J3nRC_r3cHD2ui5LBJYHb0UKwX7HwhvNmn5IUDf_Qyg/edit?resourcekey=0-l9uDhkzj9ynDS1ikq5rCzQ#heading=h.7n15gd1i4abd)
 * Checkout SE hal source code present at  SE HAL in hardware/google location
-Add following code in device/google/cuttlefish/shared/config/device.mk
+* Add following code in device/google/cuttlefish/shared/device.mk
 ```
 PRODUCT_PACKAGES += \
     android.hardware.secure_element@1.2-service.google \
@@ -54,9 +55,12 @@ allow hal_secure_element_google vendor_data_file:file { open read getattr };
 ```
 
 * In system/sepolicy/public/hal_neverallows.te
-NOTE in self:global_capability_class_set { net_admin net_raw }; and }:tcp_socket *;
 ```
-- hal_secure_element_server
+-hal_secure_element_server
+
+NOTE: Add above line in following blocks
+-- 'self:global_capability_class_set { net_admin net_raw };' 
+-- ':tcp_socket *'
 ```
 
 * Build the AOSP and verify that all mentioned Binaries are present 
