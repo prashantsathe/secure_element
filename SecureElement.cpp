@@ -119,6 +119,8 @@ Return<void> SecureElement::openLogicalChannel(const hidl_vec<uint8_t>& aid, uin
         } else {
             sestatus = SecureElementStatus::FAILED;
         }
+        // Got an error, Close logical channel
+        closeChannel(cbLogicalResponse.channelNumber);
     } else {
         LOG(INFO) << "Select command Success";
         sestatus = SecureElementStatus::SUCCESS;
