@@ -7,11 +7,11 @@ SE HAL is a dummy service which interacts with JCserver(Socket based java applic
 
 ## Integration Steps (Keymaster Applet testing)
 * First follow building an AOSP and strongbox/Omapi integration steps mentioned in the [xTS Setup Guide for Keymint100](https://docs.google.com/document/d/1J3nRC_r3cHD2ui5LBJYHb0UKwX7HwhvNmn5IUDf_Qyg/edit?resourcekey=0-l9uDhkzj9ynDS1ikq5rCzQ#heading=h.7n15gd1i4abd)
-* Checkout SE hal source code present at  SE HAL in hardware/google location
+* Checkout SE hal source code present at  SE HAL in external/libese/ready_se/google location
 * Add following code in device/google/cuttlefish/shared/device.mk
 ```
 PRODUCT_PACKAGES += \
-    android.hardware.secure_element@1.2-service.google \
+    android.hardware.secure_element@1.2-service.google
 ```
 * In device/google/cuttlefish/shared/config/manifest.xml
 ```
