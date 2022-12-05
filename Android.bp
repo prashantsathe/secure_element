@@ -14,9 +14,9 @@ cc_binary {
     proprietary: true,
     defaults: ["hidl_defaults"],
     srcs: [
-        "GoogleSEHalService.cpp",
-        "SecureElement.cpp",
-        "SocketTransport.cpp"
+        "src/GoogleSEHalService.cpp",
+        "src/SecureElement.cpp",
+        "src/SocketTransport.cpp"
     ],
 
     shared_libs: [
@@ -34,7 +34,7 @@ cc_binary {
     ],
 
     local_include_dirs: [
-        "./",
+        "./src/",
     ],
 
     include_dirs: [
