@@ -11,6 +11,9 @@ cc_binary {
     relative_install_path: "hw",
     name: "android.hardware.secure_element@1.2-service.google",
     init_rc: ["android.hardware.google@1.2-service.rc"],
+    vintf_fragments: [
+        "android.hardware.secure_element.xml"
+    ],
     proprietary: true,
     defaults: ["hidl_defaults"],
     srcs: [
